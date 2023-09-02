@@ -97,6 +97,7 @@ struct PullRequest_Temp: Codable {
     let mergeable: MergeableState
     let author: GitUser?
     let body: String
+    let headRefOid: String
     let reviewRequests: ReviewRequestConnection?
     let assignees: AssigneesConnection
     let comments: IssueCommentConnection
@@ -104,7 +105,7 @@ struct PullRequest_Temp: Codable {
     let commits: PullRequestCommitConnection
     
     enum CodingKeys: String, CodingKey {
-        case title, updatedAt, number, permalink, state, createdAt, closedAt, mergedAt, mergeable, author, body, reviewRequests, assignees, comments, reviews, commits
+        case title, updatedAt, number, permalink, state, createdAt, closedAt, mergedAt, mergeable, author, body, headRefOid, reviewRequests, assignees, comments, reviews, commits
     }
 }
 

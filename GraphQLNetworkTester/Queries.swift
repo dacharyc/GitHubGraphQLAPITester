@@ -50,6 +50,7 @@ extension GraphQLQuery {
                         avatarUrl
                       }
                       body
+                      headRefOid
                       reviewRequests(last: 100){
                         nodes {
                           requestedReviewer {
