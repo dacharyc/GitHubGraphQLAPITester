@@ -33,8 +33,8 @@ extension GraphQLQuery {
         return GraphQLQuery(
             query: """
                 query {
-                  repository(owner: "realm", name: "realm-cpp"){
-                    pullRequest(number: 92) {
+                  repository(owner: "\(owner)", name: "\(repo)") {
+                    pullRequest(number: \(number)) {
                       title
                       updatedAt
                       number
@@ -94,7 +94,55 @@ extension GraphQLQuery {
                             message
                             commitUrl
                             oid
-                            checkSuites(last: 90) {
+                          }
+                        }
+                      }
+                      reviews(last: 100) {
+                        nodes {
+                          id
+                          author {
+                            avatarUrl
+                            login
+                          }
+                          body
+                          updatedAt
+                          state
+                          url
+                          comments(last: 100) {
+                            nodes {
+                              author {
+                                avatarUrl
+                                login
+                              }
+                              body
+                              id
+                              updatedAt
+                              url
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+            """
+        )
+    }
+    
+    static func getPullRequestStatusCheckData(forOwner owner: String, inRepo repo: String, withNumber number: Int) -> GraphQLQuery {
+        return GraphQLQuery(
+            query: """
+                query {
+                  repository(owner: "\(owner)", name: "\(repo)"){
+                    pullRequest(number: \(number)) {
+                      updatedAt
+                      number
+                      headRefOid
+                      commits(last: 1) {
+                        nodes {
+                          commit {
+                            oid
+                            checkSuites(last: 50) {
                               nodes {
                                 id
                                 conclusion
@@ -144,31 +192,6 @@ extension GraphQLQuery {
                                   }
                                 }
                               }
-                            }
-                          }
-                        }
-                      }
-                      reviews(last: 100) {
-                        nodes {
-                          id
-                          author {
-                            avatarUrl
-                            login
-                          }
-                          body
-                          updatedAt
-                          state
-                          url
-                          comments(last: 100) {
-                            nodes {
-                              author {
-                                avatarUrl
-                                login
-                              }
-                              body
-                              id
-                              updatedAt
-                              url
                             }
                           }
                         }

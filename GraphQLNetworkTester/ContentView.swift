@@ -28,14 +28,33 @@ struct ContentView: View {
                             print("Attempting to fetch data for owner: \(owner), repo: \(repo), number: \(number)")
                             let result = try await DataLoader().request(forQraphQLQuery: .getPullRequestData(forOwner: owner, inRepo: repo, withNumber: number))
                             if let validData = result {
-                                print("We're in the unwrapped pullRequestCommits return value and have some data!")
+                                print("We're in the unwrapped return value and have some data!")
                                 let stringData = String(data: validData, encoding: String.Encoding.ascii)
                                 print("String data is: \(String(describing: stringData))")
                                 
                                 let decodedPRData = try? JSONDecoder().decode(DecodePRStartingPoint.self, from: validData)
                                 if let unwrappedDecodedData = decodedPRData {
                                     print("Successfully decoded data! The PR number is: ")
-                                    print(unwrappedDecodedData.data.repository)
+                                    print(unwrappedDecodedData.data.repository.pullRequest.number)
+                                } else {
+                                    print("No data here! Couldn't decode it.")
+                                }
+                            }
+                        }
+                    }
+                    Button("Fetch Status Checks") {
+                        Task {
+                            print("Attempting to fetch status check data for owner: \(owner), repo: \(repo), number: \(number)")
+                            let result = try await DataLoader().request(forQraphQLQuery: .getPullRequestStatusCheckData(forOwner: owner, inRepo: repo, withNumber: number))
+                            if let validData = result {
+                                print("We're in the unwrapped return value and have some data!")
+                                let stringData = String(data: validData, encoding: String.Encoding.ascii)
+                                print("String data is: \(String(describing: stringData))")
+                                
+                                let decodedPRData = try? JSONDecoder().decode(DecodeStatusCheckStartingPoint.self, from: validData)
+                                if let unwrappedDecodedData = decodedPRData {
+                                    print("Successfully decoded data! The PR number is: ")
+                                    print(unwrappedDecodedData.data.repository.pullRequest.number)
                                 } else {
                                     print("No data here! Couldn't decode it.")
                                 }

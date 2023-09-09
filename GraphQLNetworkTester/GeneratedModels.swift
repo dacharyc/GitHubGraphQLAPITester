@@ -183,11 +183,9 @@ struct CommitObject: Codable {
     let message: String
     let commitURL: String
     let oid: String
-    let checkSuites: CheckSuitesConnection?
-    let status: CommitStatus?
     
     enum CodingKeys: String, CodingKey {
-        case author, authoredDate, message, oid, checkSuites, status
+        case author, authoredDate, message, oid
         case commitURL = "commitUrl"
     }
 }
@@ -197,6 +195,95 @@ struct CommitAuthor: Codable {
     let user: GitUser?
     let avatarUrl: String?
     let name: String?
+}
+
+// MARK: - PullRequestReviewConnection
+struct PullRequestReviewConnection: Codable {
+    let nodes: [ReviewsNode]
+}
+
+// MARK: - ReviewsNode: Confirmed
+struct ReviewsNode: Codable {
+    let id: String
+    let author: GitUser?
+    let body: String
+    let updatedAt: String
+    let state: PullRequestReviewState
+    let url: String
+    let comments: PullRequestReviewCommentConnection
+}
+
+// MARK: - PullRequestReviewCommentConnection: Confirmed
+struct PullRequestReviewCommentConnection: Codable {
+    let nodes: [CommentsNode]
+}
+
+// MARK: - PullRequestReviewStateEnum: Confirmed
+enum PullRequestReviewState: String, Codable {
+    case pending = "PENDING"
+    case commented = "COMMENTED"
+    case approved = "APPROVED"
+    case changesRequested = "CHANGES_REQUESTED"
+    case dismissed = "DISMISSED"
+}
+
+// MARK: - DecodeStatusChecksStartingPoint
+struct DecodeStatusCheckStartingPoint: Codable {
+    let data: StatusCheckInterim_Temp
+    
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+}
+
+struct StatusCheckInterim_Temp: Codable {
+    let repository: StatusCheckRepo_Temp
+    
+    enum CodingKeys: String, CodingKey {
+        case repository
+    }
+}
+
+struct StatusCheckRepo_Temp: Codable {
+    let pullRequest: StatusCheckPullRequest_Temp
+    
+    enum CodingKeys: String, CodingKey {
+        case pullRequest
+    }
+}
+
+struct StatusCheckPullRequest_Temp: Codable {
+    let updatedAt: String
+    let number: Int
+    let headRefOid: String
+    let commits: StatusCheckPullRequestCommitConnection
+    
+    enum CodingKeys: String, CodingKey {
+        case updatedAt, number, headRefOid, commits
+    }
+}
+
+struct StatusCheckPullRequestCommitConnection: Codable {
+    let nodes: [StatusCheckCommitNode]
+}
+
+struct StatusCheckCommitNode: Codable {
+    let commitObject: StatusCheckCommitObject
+    
+    enum CodingKeys: String, CodingKey {
+        case commitObject = "commit"
+    }
+}
+
+// MARK: StatusCheck Commit Object
+struct StatusCheckCommitObject: Codable {
+    let oid: String
+    let checkSuites: CheckSuitesConnection?
+    let status: CommitStatus?
+    
+    enum CodingKeys: String, CodingKey {
+        case oid, checkSuites, status
+    }
 }
 
 // MARK: - CheckSuitesConnection: Confirmed
@@ -217,6 +304,16 @@ struct CheckSuite: Codable {
 
 struct CheckRunConnection: Codable {
     let nodes: [CheckRun]
+}
+
+struct CheckRun: Codable {
+    let id: String
+    let name: String
+    let permalink: String
+    let conclusion: CheckRunConclusion?
+    let startedAt: String?
+    let completedAt: String?
+    let summary: String?
 }
 
 // MARK: - CheckRunConclusion: Confirmed
@@ -261,16 +358,6 @@ struct CombinedContexts: Codable {
     let nodes: [CombinedContextRun]
 }
 
-struct CheckRun: Codable {
-    let id: String
-    let name: String?
-    let permalink: String?
-    let conclusion: CheckRunConclusion?
-    let startedAt: String?
-    let completedAt: String?
-    let summary: String?
-}
-
 // MARK: - CombinedContextRun: Confirmed
 struct CombinedContextRun: Codable {
     // CheckRun
@@ -304,34 +391,4 @@ enum CheckRunStatus: String, Codable {
     case failure = "FAILURE"
     case pending = "PENDING"
     case success = "SUCCESS"
-}
-
-// MARK: - PullRequestReviewConnection
-struct PullRequestReviewConnection: Codable {
-    let nodes: [ReviewsNode]
-}
-
-// MARK: - ReviewsNode: Confirmed
-struct ReviewsNode: Codable {
-    let id: String
-    let author: GitUser?
-    let body: String
-    let updatedAt: String
-    let state: PullRequestReviewState
-    let url: String
-    let comments: PullRequestReviewCommentConnection
-}
-
-// MARK: - PullRequestReviewCommentConnection: Confirmed
-struct PullRequestReviewCommentConnection: Codable {
-    let nodes: [CommentsNode]
-}
-
-// MARK: - PullRequestReviewStateEnum: Confirmed
-enum PullRequestReviewState: String, Codable {
-    case pending = "PENDING"
-    case commented = "COMMENTED"
-    case approved = "APPROVED"
-    case changesRequested = "CHANGES_REQUESTED"
-    case dismissed = "DISMISSED"
 }
