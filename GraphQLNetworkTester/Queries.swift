@@ -33,8 +33,8 @@ extension GraphQLQuery {
         return GraphQLQuery(
             query: """
                 query {
-                  repository(owner: "\(owner)", name: "\(repo)"){
-                    pullRequest(number: \(number)) {
+                  repository(owner: "realm", name: "realm-cpp"){
+                    pullRequest(number: 92) {
                       title
                       updatedAt
                       number
@@ -61,6 +61,7 @@ extension GraphQLQuery {
                           }
                         }
                       }
+                      
                       assignees(last: 100) {
                         nodes {
                           avatarUrl
@@ -93,12 +94,23 @@ extension GraphQLQuery {
                             message
                             commitUrl
                             oid
-                            checkSuites(last: 100) {
+                            checkSuites(last: 90) {
                               nodes {
                                 id
                                 conclusion
                                 updatedAt
                                 url
+                                checkRuns(last: 50) {
+                                  nodes {
+                                    id
+                                    name
+                                    permalink
+                                    conclusion
+                                    startedAt
+                                    completedAt
+                                    summary
+                                  }
+                                }
                                 workflowRun {
                                   workflow {
                                     name
@@ -119,6 +131,7 @@ extension GraphQLQuery {
                                     conclusion
                                     startedAt
                                     completedAt
+                                    summary
                                   }
                                   ... on StatusContext {
                                     id

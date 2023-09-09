@@ -212,6 +212,11 @@ struct CheckSuite: Codable {
     let url: String
     let workflowRun: WorkflowRun?
     let app: CheckSuiteApp?
+    let checkRuns: CheckRunConnection?
+}
+
+struct CheckRunConnection: Codable {
+    let nodes: [CheckRun]
 }
 
 // MARK: - CheckRunConclusion: Confirmed
@@ -256,6 +261,16 @@ struct CombinedContexts: Codable {
     let nodes: [CombinedContextRun]
 }
 
+struct CheckRun: Codable {
+    let id: String
+    let name: String?
+    let permalink: String?
+    let conclusion: CheckRunConclusion?
+    let startedAt: String?
+    let completedAt: String?
+    let summary: String?
+}
+
 // MARK: - CombinedContextRun: Confirmed
 struct CombinedContextRun: Codable {
     // CheckRun
@@ -265,6 +280,7 @@ struct CombinedContextRun: Codable {
     let conclusion: CheckRunConclusion?
     let startedAt: String?
     let completedAt: String?
+    let summary: String?
 
     // StatusContext
     let context: String?
@@ -275,7 +291,7 @@ struct CombinedContextRun: Codable {
     let avatarURL: String?
 
     enum CodingKeys: String, CodingKey {
-        case id, name, permalink, conclusion, startedAt, completedAt, context, description, state, createdAt
+        case id, name, permalink, conclusion, startedAt, completedAt, context, description, state, createdAt, summary
         case targetURL = "targetUrl"
         case avatarURL = "avatarUrl"
     }
