@@ -17,6 +17,9 @@
 		AC162E262A923B0200990143 /* GeneratedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC162E252A923B0200990143 /* GeneratedModels.swift */; };
 		AC162E2A2A92578800990143 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC162E292A92578800990143 /* DataLoader.swift */; };
 		AC162E2C2A9257B200990143 /* Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC162E2B2A9257B200990143 /* Queries.swift */; };
+		ACE87A7E2AB1462100EF4ACD /* FetchPRDataCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE87A7D2AB1462100EF4ACD /* FetchPRDataCoordinator.swift */; };
+		ACE87A822AB1471300EF4ACD /* RepoFetchObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE87A812AB1471300EF4ACD /* RepoFetchObject.swift */; };
+		ACE87A852AB14D3E00EF4ACD /* Queue in Frameworks */ = {isa = PBXBuildFile; productRef = ACE87A842AB14D3E00EF4ACD /* Queue */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,8 @@
 		AC162E252A923B0200990143 /* GeneratedModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedModels.swift; sourceTree = "<group>"; };
 		AC162E292A92578800990143 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		AC162E2B2A9257B200990143 /* Queries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queries.swift; sourceTree = "<group>"; };
+		ACE87A7D2AB1462100EF4ACD /* FetchPRDataCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPRDataCoordinator.swift; sourceTree = "<group>"; };
+		ACE87A812AB1471300EF4ACD /* RepoFetchObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoFetchObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACE87A852AB14D3E00EF4ACD /* Queue in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +115,8 @@
 				AC162E252A923B0200990143 /* GeneratedModels.swift */,
 				AC162E292A92578800990143 /* DataLoader.swift */,
 				AC162E2B2A9257B200990143 /* Queries.swift */,
+				ACE87A7D2AB1462100EF4ACD /* FetchPRDataCoordinator.swift */,
+				ACE87A812AB1471300EF4ACD /* RepoFetchObject.swift */,
 			);
 			path = GraphQLNetworkTester;
 			sourceTree = "<group>";
@@ -154,6 +162,9 @@
 			dependencies = (
 			);
 			name = GraphQLNetworkTester;
+			packageProductDependencies = (
+				ACE87A842AB14D3E00EF4ACD /* Queue */,
+			);
 			productName = GraphQLNetworkTester;
 			productReference = AC162DF72A923AE400990143 /* GraphQLNetworkTester.app */;
 			productType = "com.apple.product-type.application";
@@ -226,6 +237,9 @@
 				Base,
 			);
 			mainGroup = AC162DEE2A923AE400990143;
+			packageReferences = (
+				ACE87A832AB14D3E00EF4ACD /* XCRemoteSwiftPackageReference "Queue" */,
+			);
 			productRefGroup = AC162DF82A923AE400990143 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -269,10 +283,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC162E2C2A9257B200990143 /* Queries.swift in Sources */,
+				ACE87A7E2AB1462100EF4ACD /* FetchPRDataCoordinator.swift in Sources */,
 				AC162E2A2A92578800990143 /* DataLoader.swift in Sources */,
 				AC162DFD2A923AE400990143 /* ContentView.swift in Sources */,
 				AC162DFB2A923AE400990143 /* GraphQLNetworkTesterApp.swift in Sources */,
 				AC162E262A923B0200990143 /* GeneratedModels.swift in Sources */,
+				ACE87A822AB1471300EF4ACD /* RepoFetchObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +604,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		ACE87A832AB14D3E00EF4ACD /* XCRemoteSwiftPackageReference "Queue" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mattmassicotte/Queue";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ACE87A842AB14D3E00EF4ACD /* Queue */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ACE87A832AB14D3E00EF4ACD /* XCRemoteSwiftPackageReference "Queue" */;
+			productName = Queue;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AC162DEF2A923AE400990143 /* Project object */;
 }

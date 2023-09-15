@@ -8,6 +8,8 @@
 import Foundation
 
 class DataLoader {
+    var remainingAPIRequests = 0
+    
     func request(forQraphQLQuery: GraphQLQuery) async throws -> Data? {
         let token = "<INSERT_YOUR_TOKEN_HERE>"
         
@@ -46,12 +48,30 @@ class DataLoader {
         // Code might suspend here
         let (data, response) = try await URLSession.shared.data(for: apiRequest)
         
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            throw DataFetcherError.serverError
+        let httpUrlResponse = response as? HTTPURLResponse
+        if let unwrappedResponse = httpUrlResponse {
+            let statusCode = unwrappedResponse.statusCode
+            
+            if statusCode == 200 {
+                let remainingRequests = unwrappedResponse.value(forHTTPHeaderField: "x-ratelimit-remaining")
+                if let unwrappedOptionalRemainingRequests = remainingRequests {
+                    let remainingRequestsAsInt = Int(unwrappedOptionalRemainingRequests)
+                    if let validInt = remainingRequestsAsInt {
+                        remainingAPIRequests = validInt
+                        print("Available requests remaining: \(remainingAPIRequests)")
+                    }
+                }
+                return data
+            } else {
+                print("There was an error fetching data from GitHub: \(statusCode.description)")
+                let decodedErrorInfo = try? JSONDecoder().decode(DecodeGitHubAPIErrorBody.self, from: data)
+                if let unwrappedErrorMessage = decodedErrorInfo {
+                    print("The GitHub error message was: \(unwrappedErrorMessage)")
+                    throw DataFetcherError.serverError(unwrappedErrorMessage.message)
+                }
+                throw DataFetcherError.serverError("There was no decoded error message from GitHub")
+            }
         }
-        
-        //print(response as? HTTPURLResponse)
-        
         return data
     }
 }
@@ -60,5 +80,5 @@ enum DataFetcherError: Error {
     case invalidURL
     case notFound
     case typeNotFound
-    case serverError
+    case serverError(String?)
 }

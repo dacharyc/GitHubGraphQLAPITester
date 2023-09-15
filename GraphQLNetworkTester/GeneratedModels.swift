@@ -12,6 +12,14 @@
 
 import Foundation
 
+struct DecodeGitHubAPIErrorBody: Codable {
+    let message: String
+    
+    enum CodingKeys: String, CodingKey {
+        case message
+    }
+}
+
 // MARK: DecodePRListInRepoStartingPoint
 struct DecodePRListInRepoStartingPoint: Codable {
     let data: InterimRepositoryStruct

@@ -17,6 +17,12 @@ struct ContentView: View {
     var body: some View {
         HStack {
             VStack {
+                Button("Get PRs") {
+                    Task {
+                        await FetchPRDataCoordinator().getPRs()
+                    }
+                }
+                
                 Text("Fetch Data for Pull Request")
                     .padding(1)
                 Form {
